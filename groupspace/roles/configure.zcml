@@ -3,5 +3,8 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="groupspace.roles">
 
+    <include package=".browser" />
+
+    <adapter factory=".localroles.LocalRoles" />
 
 </configure>
