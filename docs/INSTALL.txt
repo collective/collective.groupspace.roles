@@ -34,6 +34,17 @@ recipe to manage your project, you can do this:
     ...
     zcml =
         groupspace.roles
+
+* Tell Plone where to find the package:
+
+    develop =
+        ...
+        src/groupspace.roles
+
+* Make a checkout of ``groupspace.roles`` to the src folder:
+
+    $ cd src
+    $ svn co https://svn.plone.org/svn/collective/groupspace.roles/trunk groupspaces.roles
       
 * Re-run buildout, e.g. with:
 
