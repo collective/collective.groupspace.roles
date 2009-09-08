@@ -1,0 +1,130 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="context/@@standard_macros/page"
+      i18n:domain="grufspaces">
+
+<head>
+</head>
+
+<body>
+<div metal:fill-slot="body"
+     tal:define="context_state context/@@plone_context_state">
+
+<h1 class="documentFirstHeading"
+    i18n:translate="heading_currently_assigned_roles">
+    Roles for
+    "<span tal:content="context/Title" tal:omit-tag="" i18n:name="folder">title</span>"
+</h1>
+
+<p class="documentDescription"
+   i18n:translate="description_roles_control">
+    You can control who can participate in this group space.
+</p>
+
+<form method="post" 
+      tal:attributes="action string:${context/absolute_url}/@@roles">
+      
+    <input type="hidden" name="form.submitted:boolean" value="True" />
+
+    <div class="field">
+        <input type="text" 
+               id="roles-user-group-search"
+               size="30" 
+               name="search_term"
+               title="Search for user or group" 
+               i18n:attributes="title"
+               class="searchField inputLabel"
+               value="" 
+               />
+        <input type="submit"
+               id="roles-save-button" 
+               name="form.button.Search"
+               value="Search"
+               class="searchButton allowMultiSubmit" 
+               i18n:attributes="value box_search"
+               />
+    </div>
+
+<table metal:define-macro="user-group-roles" id="user-group-roles"
+       class="listing" 
+       summary="Current roles permissions" 
+       tal:define="available_roles view/roles;
+                   num_columns python:len(available_roles) + 1;
+                   role_settings view/role_settings"
+       i18n:attributes="summary summary_assigned_roles;">
+
+      <thead metal:define-macro="user-group-sharing-head" id="user-group-sharing-head">
+          <tr tal:condition="python:len(role_settings) > 0">
+              <th i18n:translate="label_name">User/Group</th>
+              <th class="nosort"
+                  tal:repeat="role available_roles"
+                  tal:content="role/title"  />
+          </tr>
+      </thead>
+
+    <tbody metal:define-macro="user-group-sharing-settings" id="user-group-sharing-settings">
+        <tal:entries repeat="entry role_settings">
+            <tr tal:define="is_group python:entry['type'] == 'group';
+                            disabled entry/disabled | python:False;
+                            oddrow repeat/entry/odd;
+                            sticky python:entry['id'] in view.STICKY"
+                tal:attributes="class python:oddrow and 'odd' or 'even'">
+                <td>
+                    <img tal:condition="is_group" tal:replace="structure context/group.gif" /> 
+                    <img tal:condition="not:is_group" tal:replace="structure context/user.gif" /> 
+
+                    <tal:sticky condition="sticky">
+                      <span tal:replace="entry/title" />
+                    </tal:sticky>
+                    <tal:nonsticky condition="not:sticky">
+                      <span tal:replace="entry/title" />
+                      <tal:title condition="python:entry['title']!=entry['id']">
+                        (<span tal:replace="entry/id" />)
+                      </tal:title>
+                    </tal:nonsticky>
+
+                    <input
+                        tal:condition="not:disabled"
+                        type="hidden"
+                        name="entries.id:records"
+                        tal:attributes="value entry/id"
+                        />
+                    <input
+                        tal:condition="not:disabled"
+                        type="hidden"
+                        name="entries.type:records"
+                        tal:attributes="value entry/type"
+                        />
+                </td>
+                <td class="listingCheckbox"
+                    tal:repeat="role available_roles">
+                    <tal:block define="entry_role python:entry['roles'][role['id']]">
+                        <img tal:condition="python:entry_role == 'global'" tal:replace="structure context/site_icon.gif" />
+                        <img tal:condition="python:entry_role == 'acquired'" tal:replace="structure context/confirm_icon.gif" />
+                        <tal:block condition="python:entry_role in (True, False)">
+                          <input class="noborder"
+                                 type="checkbox"
+                                 value="True"
+                                 tal:attributes="name string:entries.role_${role/id}:records;
+                                                 checked python:entry_role and 'checked' or None;
+                                                 disabled python:disabled or None"
+                                 />
+                        </tal:block>
+                    </tal:block>
+                </td>
+            </tr>
+        </tal:entries>
+    </tbody>
+    
+</table>
+
+    <input class="context" type="submit" name="form.button.Save" value="Save" i18n:attributes="value label_save" />
+    <input class="standalone" type="submit" name="form.button.Cancel" value="Cancel" i18n:attributes="value label_cancel"/>
+
+    <input tal:replace="structure context/@@authenticator/authenticator" />
+
+</form>
+
+</div>
+</body>
+</html>

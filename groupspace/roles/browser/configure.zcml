@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:page
+        name="roles"
+        for="*"
+        class=".roles.RolesView"
+        permission="zope2.View"
+        />
+        
+    <browser:page
+        for="*"
+        class=".kss_roles.KSSRolesView"
+        name="updateRolesInfo"
+        attribute="updateRolesInfo"
+        permission="zope2.View"
+      />
+      
+</configure>
