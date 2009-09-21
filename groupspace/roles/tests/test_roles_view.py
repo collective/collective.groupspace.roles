@@ -3,7 +3,6 @@
 #
 
 from zope.component import getMultiAdapter
-
 from base import WorkflowTestCase
 
 from zope.interface import alsoProvides
@@ -20,6 +19,7 @@ class TestRolesView(WorkflowTestCase):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', id='folder')
         self.folder = self.portal.folder
+        # Make the folder provide the IGroupSpace interface
         self.folder.user_roles = PersistentMapping()
         self.folder.group_roles = PersistentMapping()
         alsoProvides(self.folder, IGroupSpace)
