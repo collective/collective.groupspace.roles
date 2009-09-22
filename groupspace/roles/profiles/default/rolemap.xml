@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<rolemap>
+  <roles>
+    <role name="GroupAdmin"/>
+    <role name="GroupEditor"/>
+    <role name="GroupContributor"/>
+    <role name="GroupReader"/>
+  </roles>
+  <permissions>
+    <permission name="GrufSpaces: Assign GroupSpace Roles"
+                acquire="True">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="GroupAdmin"/>
+    </permission>
+  </permissions>
+</rolemap>
+
