@@ -7,4 +7,35 @@
 
     <adapter factory=".localroles.LocalRoles" />
 
+    <!-- Local roles managed in the @@roles view -->
+
+    <utility
+        name="GroupAdmin"
+        factory=".localroles.GroupAdminRole"
+        />
+
+    <utility
+        name="GroupEditor"
+        factory=".localroles.GroupEditorRole"
+        />
+
+
+    <utility
+        name="GroupContributor"
+        factory=".localroles.GroupContributorRole"
+        />
+
+    <utility
+        name="GroupReader"
+        factory=".localroles.GroupReaderRole"
+        />
+
+    <!-- Event handlers -->
+
+    <subscriber
+        for=".interface.content.IGroupSpace
+             zope.app.container.interfaces.IObjectAddedEvent"
+        handler=".handlers.add_local_groupspace_workflow"
+        />
+
 </configure>
