@@ -2,6 +2,34 @@ from borg.localrole.interfaces import ILocalRoleProvider
 from Products.GrufSpaces.interface import IGroupSpace
 from zope.interface import implements
 from zope.component import adapts
+from Products.GrufSpaces.interface import IRolesPageRole
+from Products.GrufSpaces.permissions import AssignGroupSpaceRoles
+from plone.app.workflow import PloneMessageFactory as _
+
+class GroupAdminRole(object):
+    implements(IRolesPageRole)
+    
+    title = _(u"title_can_manage", default=u"Can manage")
+    required_permission = AssignGroupSpaceRoles
+    
+class GroupEditorRole(object):
+    implements(IRolesPageRole)
+    
+    title = _(u"title_can_edit", default=u"Can edit")
+    required_permission = AssignGroupSpaceRoles
+    
+class GroupContributorRole(object):
+    implements(IRolesPageRole)
+    
+    title = _(u"title_can_edit", default=u"Can add")
+    required_permission = AssignGroupSpaceRoles
+    
+
+class GroupReaderRole(object):
+    implements(IRolesPageRole)
+    
+    title = _(u"title_can_view", default=u"Can view")
+    required_permission = AssignGroupSpaceRoles
 
 class LocalRoles(object):
     """Provide a local role manager for group spaces
