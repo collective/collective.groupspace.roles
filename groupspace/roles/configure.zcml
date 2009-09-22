@@ -30,12 +30,4 @@
         factory=".localroles.GroupReaderRole"
         />
 
-    <!-- Event handlers -->
-
-    <subscriber
-        for=".interface.content.IGroupSpace
-             zope.app.container.interfaces.IObjectAddedEvent"
-        handler=".handlers.add_local_groupspace_workflow"
-        />
-
 </configure>
