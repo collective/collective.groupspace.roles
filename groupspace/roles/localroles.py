@@ -5,6 +5,19 @@ from zope.component import adapts
 from Products.GrufSpaces.interface import IRolesPageRole
 from Products.GrufSpaces.permissions import AssignGroupSpaceRoles
 from plone.app.workflow import PloneMessageFactory as _
+from plone.indexer.decorator import indexer
+from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
+
+@indexer(ILocalGroupSpacePASRoles)
+def allowedLocalUsersAndGroups(object):
+    result = []
+    if not object.user_roles is None:
+        for user_id in object.user_roles.keys():
+            result.append('user:%s' % user_id)            
+    if not object.group_roles is None:
+        for group_id in object.group_roles.keys():
+            result.append('group:%s' % group_id)            
+    return tuple(result)
 
 class GroupAdminRole(object):
     implements(IRolesPageRole)

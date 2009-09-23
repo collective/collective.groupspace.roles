@@ -8,6 +8,10 @@
 
     <adapter factory=".localroles.LocalRoles" />
 
+    <!-- Register the default indexers -->
+    <adapter factory=".localroles.allowedLocalUsersAndGroups"   
+             name="allowedLocalUsersAndGroups" />
+
     <!-- Local roles managed in the @@roles view -->
 
     <utility

@@ -175,4 +175,7 @@ class RolesView(SharingView):
             context.group_roles.clear()
             context.group_roles.update(group_roles)
         
+        # Just reindex allowedLocalUsersAndGroups
+        context.reindexObject(idxs=['allowedLocalUsersAndGroups'])
+        
         return False # Such as to not reindex the security
