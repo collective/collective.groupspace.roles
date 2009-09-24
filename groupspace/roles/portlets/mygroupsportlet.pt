@@ -1,0 +1,37 @@
+<dl class="portlet portletNews"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="groupspace.roles">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span class="tile"
+              i18n:translate="box_news">Groups</span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <tal:groupspaces tal:define="plone_view context/@@plone;
+                                 getIcon nocall:plone_view/getIcon;"
+                     tal:repeat="obj view/allowed_groupspaces">
+    <dd tal:define="oddrow repeat/obj/odd;
+                    item_icon python:getIcon(obj);"
+        tal:attributes="class python:oddrow and 'portletItem even' or 'portletItem odd'">
+        <a href=""
+           class="tile"
+           tal:attributes="href obj/getURL;
+                           title obj/Description">
+            <img tal:replace="structure item_icon/html_tag" />
+            <span tal:replace="obj/pretty_title_or_id">
+            Plone 2.1 announced!
+            </span>
+        </a>
+    </dd>
+    </tal:groupspaces>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>

@@ -5,6 +5,7 @@
     i18n_domain="groupspace.roles">
 
     <include package=".browser" />
+    <include package=".portlets" />
 
     <adapter factory=".localroles.LocalRoles" />
 
