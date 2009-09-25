@@ -7,7 +7,7 @@
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
         <span class="tile"
-              i18n:translate="box_news">Groups</span>
+              i18n:translate="box_groups">Groups</span>
         <span class="portletTopRight"></span>
     </dt>
 
