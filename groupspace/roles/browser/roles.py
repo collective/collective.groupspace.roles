@@ -3,6 +3,9 @@ from itertools import chain
 from zope.component import getUtilitiesFor
 from zope.component import getMultiAdapter
 
+import zope.interface
+from zope.event import notify
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Acquisition import aq_inner
@@ -23,6 +26,25 @@ from Products.GrufSpaces.interface import IRolesPageRole
 
 from Globals import PersistentMapping
 
+from zope.component.interfaces import ObjectEvent
+from zope.app.container.interfaces import IObjectMovedEvent
+
+from groupspace.roles.interfaces import ILocalGroupSpacePASRolesChangeEvent
+
+class LocalGroupSpacePASRolesChangeEvent(ObjectEvent):
+    """
+    Local roles for a GroupSpace are changing
+    """
+    zope.interface.implements(ILocalGroupSpacePASRolesChangeEvent)
+
+    def __init__(self, object, old_user_roles, new_user_roles, old_group_roles, 
+                 new_group_roles):
+        ObjectEvent.__init__(self, object)
+        self.old_user_roles = old_user_roles
+        self.new_user_roles = new_user_roles
+        self.old_group_roles = old_group_roles
+        self.new_group_roles = new_group_roles
+        
 class RolesView(SharingView):
     """
     The sharing view already does the heavy lifting of searching users and
@@ -156,12 +178,22 @@ class RolesView(SharingView):
                     # The roles for this user will be stored
                     group_roles[principal['id']]=roles
 
+        # Store changes for LocalGroupSpacePASRolesChangeEvent
+        old_user_roles = {}
+        new_user_roles = {}
+        old_group_roles = {}
+        new_group_roles = {}
 
         # Take care to only set any values if something has really changed
         if context.user_roles != user_roles:
             if context.user_roles is None:
                 # Now is the time to make this a persistent mapping
                 context.user_roles = PersistentMapping()
+
+            # Keep track of the changes for LocalGroupSpacePASRolesChangeEvent
+            old_user_roles = context.user_roles.copy()
+            new_user_roles = user_roles.copy()
+            
             # Instead of going through the changes individually, just set them
             context.user_roles.clear()
             context.user_roles.update(user_roles)
@@ -171,11 +203,29 @@ class RolesView(SharingView):
             if context.group_roles is None:
                 # Now is the time to make this a persistent mapping
                 context.group_roles = PersistentMapping()
+
+            # Keep track of the changes for LocalGroupSpacePASRolesChangeEvent
+            old_group_roles = context.group_roles.copy()
+            new_group_roles = group_roles.copy()
+
             # Instead of going through the changes individually, just set them
             context.group_roles.clear()
             context.group_roles.update(group_roles)
+
+        if self.request.has_key('notify_user_assignment'):
+            # The user can decide whether to send the notifications or not
+            if old_user_roles or new_user_roles or old_group_roles or new_group_roles:
+                # In case there are some changes, trigger the event
+                event = LocalGroupSpacePASRolesChangeEvent(self.context,
+                                                           old_user_roles, 
+                                                           new_user_roles, 
+                                                           old_group_roles, 
+                                                           new_group_roles)
+                notify(event)
         
         # Just reindex allowedLocalUsersAndGroups
         context.reindexObject(idxs=['allowedLocalUsersAndGroups'])
         
         return False # Such as to not reindex the security
+
+
