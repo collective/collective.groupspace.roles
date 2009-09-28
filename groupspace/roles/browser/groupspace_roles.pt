@@ -118,6 +118,16 @@
     
 </table>
 
+    <div class="field">
+        <input class="noborder" type="checkbox"
+               name="notify_user_assignment:boolean" value="1"
+               checked="checked" id="notify_user_assignment" /> 
+        <label for="notify_user_assignment"
+               i18n:translate="label_send_email_notification">
+        Send an email notification
+        </label>
+    </div>
+
     <input class="context" type="submit" name="form.button.Save" value="Save" i18n:attributes="value label_save" />
     <input class="standalone" type="submit" name="form.button.Cancel" value="Cancel" i18n:attributes="value label_cancel"/>
 
