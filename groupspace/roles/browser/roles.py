@@ -212,16 +212,15 @@ class RolesView(SharingView):
             context.group_roles.clear()
             context.group_roles.update(group_roles)
 
-        if self.request.has_key('notify_user_assignment'):
-            # The user can decide whether to send the notifications or not
-            if old_user_roles or new_user_roles or old_group_roles or new_group_roles:
-                # In case there are some changes, trigger the event
-                event = LocalGroupSpacePASRolesChangeEvent(self.context,
-                                                           old_user_roles, 
-                                                           new_user_roles, 
-                                                           old_group_roles, 
-                                                           new_group_roles)
-                notify(event)
+        # The user can decide whether to send the notifications or not
+        if old_user_roles or new_user_roles or old_group_roles or new_group_roles:
+            # In case there are some changes, trigger the event
+            event = LocalGroupSpacePASRolesChangeEvent(self.context,
+                                                       old_user_roles, 
+                                                       new_user_roles, 
+                                                       old_group_roles, 
+                                                       new_group_roles)
+            notify(event)
         
         # Just reindex allowedLocalUsersAndGroups
         context.reindexObject(idxs=['allowedLocalUsersAndGroups'])
