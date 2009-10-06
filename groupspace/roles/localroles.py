@@ -1,5 +1,4 @@
 from borg.localrole.interfaces import ILocalRoleProvider
-from Products.GrufSpaces.interface import IGroupSpace
 from zope.interface import implements
 from zope.component import adapts
 from Products.GrufSpaces.interface import IRolesPageRole
@@ -48,7 +47,7 @@ class LocalRoles(object):
     """Provide a local role manager for group spaces
     """
     implements(ILocalRoleProvider)
-    adapts(IGroupSpace)
+    adapts(ILocalGroupSpacePASRoles)
 
     def __init__(self, context):
         self.context = context
