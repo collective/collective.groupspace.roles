@@ -40,6 +40,10 @@
         id="grufspaces.AssignGroupSpaceRoles"
         title="GrufSpaces: Assign GroupSpace Roles"
         />
+
+    <subscriber for="groupspace.roles.interfaces.ILocalGroupSpacePASRoles
+                     groupspace.roles.interfaces.ILocalGroupSpacePASRolesChangeEvent"
+                handler="groupspace.roles.localroles.setPolicyDefaultLocalRoles"/>
         
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile

@@ -53,6 +53,11 @@ class LocalRoles(object):
         self.context = context
 
     def getAllRoles(self):
+        try:
+            self.context.user_roles
+            self.context.group_roles
+        except:
+            return
         if not self.context.user_roles is None:
             for user_id, user_roles in self.context.user_roles.items():
                 for role in user_roles:
@@ -62,8 +67,13 @@ class LocalRoles(object):
                 for role in group_roles:
                     yield (group_id, role)
 
-    def getRoles(self, principal_id):
+    def getRoles(self, principal_id):            
         roles = set()
+        try:
+            self.context.user_roles
+            self.context.group_roles
+        except:
+            return roles        
         if not self.context.user_roles is None:
             if principal_id in self.context.user_roles.keys():
                 for role in self.context.user_roles[principal_id]:
@@ -73,4 +83,63 @@ class LocalRoles(object):
                 for role in self.context.group_roles[principal_id]:
                     roles.add(role)
         return roles    
+
+def setPolicyDefaultLocalRoles(object, event):
+    """
+    Some local workflow policies only work when certain local roles are 
+    given by default. A common case is that the search only works when at least
+    one local role is present that gives the View permission.
+    """
+    # Unite user ids
+    users = set(event.old_user_roles.keys())
+    users.update(set(event.new_user_roles.keys()))
+    # Unite group ids
+    groups = set(event.old_group_roles.keys())
+    groups.update(set(event.new_group_roles.keys()))
+
+    default_roles = ["GroupReader",]
+
+    user_ids_to_clear = []
+    for user in users:
+        if not event.new_user_roles.has_key(user):
+            # The user has all his roles removed, so add it to the list
+            user_ids_to_clear.append(user)
+        else:                    
+            assert(event.new_user_roles[user] != 0)
+            # No roles get removed, so enforce the default local roles
+            object.manage_setLocalRoles(user, list(default_roles))
+            changed = True
+    if user_ids_to_clear:
+        # Delete all local roles for users
+        object.manage_delLocalRoles(userids=user_ids_to_clear)
+        changed = True                 
+
+    group_ids_to_clear = []
+    for group in groups:
+        if not event.new_group_roles.has_key(group):
+            # The group has all its roles removed, so add it to the list
+            group_ids_to_clear.append(group)
+        else:
+            assert(event.new_group_roles[group] != 0)
+            # No roles get removed, so enforce the default local roles
+            object.manage_setLocalRoles(group, list(default_roles))
+            changed = True            
+    if group_ids_to_clear:
+        # Delete all local roles for groups
+        object.manage_delLocalRoles(userids=group_ids_to_clear)
+        changed = True                 
+
+    if changed:
+        # Now that the local roles have changed, it is necessary to reindex
+        # the security
+        object.reindexObjectSecurity()
+
+
+
+
+
+
+
+
+
 
