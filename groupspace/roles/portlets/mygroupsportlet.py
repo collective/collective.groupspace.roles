@@ -12,7 +12,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
-from groupspace.roles import rolesMessageFactory as _
+from groupspace.roles import ROLES_MESSAGE_FACTORY as _
 
 from Acquisition import aq_inner
 
