@@ -6,3 +6,58 @@ Implements the roles tab for the GroupSpace content type of GrufSpaces.
 The tab looks exactly like the Plone sharing tab, but stores the local roles
 for users and groups in two attributes on the content type. The local roles
 can then be assigned dynamically in the context of a GroupSpace using PAS.
+
+groupspace.roles Installation
+-----------------------------
+
+To install groupspace.roles into the global Python environment (or a workingenv),
+using a traditional Zope 2 instance, you can do this:
+
+* When you're reading this you have probably already run 
+  ``easy_install groupspace.roles``. Find out how to install setuptools
+  (and EasyInstall) here:
+  http://peak.telecommunity.com/DevCenter/EasyInstall
+
+* Create a file called ``groupspace.roles-configure.zcml`` in the
+  ``/path/to/instance/etc/package-includes`` directory.  The file
+  should only contain this::
+
+    <include package="groupspace.roles" />
+
+
+Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
+recipe to manage your project, you can do this:
+
+* Add ``groupspace.roles`` to the list of eggs to install, e.g.:
+
+    [buildout]
+    ...
+    eggs =
+        ...
+        groupspace.roles
+       
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    ...
+    zcml =
+        groupspace.roles
+
+* Tell Plone where to find the package:
+
+    develop =
+        ...
+        src/groupspace.roles
+
+* Make a checkout of ``groupspace.roles`` to the src folder:
+
+    $ cd src
+    $ svn co https://svn.plone.org/svn/collective/groupspace.roles/trunk groupspaces.roles
+      
+* Re-run buildout, e.g. with:
+
+    $ ./bin/buildout
+        
+You can skip the ZCML slug if you are going to explicitly include the package
+from another package's configure.zcml file.
