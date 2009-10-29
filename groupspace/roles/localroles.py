@@ -1,3 +1,7 @@
+"""
+Local roles for PAS
+"""
+
 from borg.localrole.interfaces import ILocalRoleProvider
 from zope.interface import implements
 from zope.component import adapts
@@ -8,29 +12,36 @@ from plone.indexer.decorator import indexer
 from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 
 @indexer(ILocalGroupSpacePASRoles)
-def allowedLocalUsersAndGroups(object):
+def allowedLocalUsersAndGroups(obj):
+    """
+    A catalog index similar to allowedRolesAndUsers, but for local roles
+    of users and groups only.
+    """
     result = []
-    if not object.user_roles is None:
-        for user_id in object.user_roles.keys():
+    if not obj.user_roles is None:
+        for user_id in obj.user_roles.keys():
             result.append('user:%s' % user_id)            
-    if not object.group_roles is None:
-        for group_id in object.group_roles.keys():
+    if not obj.group_roles is None:
+        for group_id in obj.group_roles.keys():
             result.append('group:%s' % group_id)            
     return tuple(result)
 
 class GroupAdminRole(object):
+    """Admin role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_manage", default=u"Can manage")
     required_permission = AssignGroupSpaceRoles
     
 class GroupEditorRole(object):
+    """Editor role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_edit", default=u"Can edit")
     required_permission = AssignGroupSpaceRoles
     
 class GroupContributorRole(object):
+    """Contributor role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_edit", default=u"Can add")
@@ -38,13 +49,15 @@ class GroupContributorRole(object):
     
 
 class GroupReaderRole(object):
+    """Reader role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_view", default=u"Can view")
     required_permission = AssignGroupSpaceRoles
 
 class LocalRoles(object):
-    """Provide a local role manager for group spaces
+    """Provide a local role manager for group spaces that allows querying the
+       local roles on an object.
     """
     implements(ILocalRoleProvider)
     adapts(ILocalGroupSpacePASRoles)
@@ -53,10 +66,13 @@ class LocalRoles(object):
         self.context = context
 
     def getAllRoles(self):
+        """Returns an iterable consisting of tuples of the form:
+           (principal_id, sequence_of_roles)
+        """
         try:
             self.context.user_roles
             self.context.group_roles
-        except:
+        except AttributeError:
             return
         if not self.context.user_roles is None:
             for user_id, user_roles in self.context.user_roles.items():
@@ -68,11 +84,13 @@ class LocalRoles(object):
                     yield (group_id, role)
 
     def getRoles(self, principal_id):            
+        """Returns an iterable of roles granted to the specified user object
+        """
         roles = set()
         try:
             self.context.user_roles
             self.context.group_roles
-        except:
+        except AttributeError:
             return roles        
         if not self.context.user_roles is None:
             if principal_id in self.context.user_roles.keys():
@@ -84,7 +102,7 @@ class LocalRoles(object):
                     roles.add(role)
         return roles    
 
-def setPolicyDefaultLocalRoles(object, event):
+def setPolicyDefaultLocalRoles(obj, event):
     """
     Some local workflow policies only work when certain local roles are 
     given by default. A common case is that the search only works when at least
@@ -97,7 +115,7 @@ def setPolicyDefaultLocalRoles(object, event):
     groups = set(event.old_group_roles.keys())
     groups.update(set(event.new_group_roles.keys()))
 
-    default_roles = ["GroupReader",]
+    default_roles = ["GroupReader", ]
 
     user_ids_to_clear = []
     for user in users:
@@ -107,11 +125,11 @@ def setPolicyDefaultLocalRoles(object, event):
         else:                    
             assert(event.new_user_roles[user] != 0)
             # No roles get removed, so enforce the default local roles
-            object.manage_setLocalRoles(user, list(default_roles))
+            obj.manage_setLocalRoles(user, list(default_roles))
             changed = True
     if user_ids_to_clear:
         # Delete all local roles for users
-        object.manage_delLocalRoles(userids=user_ids_to_clear)
+        obj.manage_delLocalRoles(userids=user_ids_to_clear)
         changed = True                 
 
     group_ids_to_clear = []
@@ -122,17 +140,17 @@ def setPolicyDefaultLocalRoles(object, event):
         else:
             assert(event.new_group_roles[group] != 0)
             # No roles get removed, so enforce the default local roles
-            object.manage_setLocalRoles(group, list(default_roles))
+            obj.manage_setLocalRoles(group, list(default_roles))
             changed = True            
     if group_ids_to_clear:
         # Delete all local roles for groups
-        object.manage_delLocalRoles(userids=group_ids_to_clear)
+        obj.manage_delLocalRoles(userids=group_ids_to_clear)
         changed = True                 
 
     if changed:
         # Now that the local roles have changed, it is necessary to reindex
         # the security
-        object.reindexObjectSecurity()
+        obj.reindexObjectSecurity()
 
 
 

@@ -27,28 +27,21 @@ other roles can do.
     
     >>> browser.open('%s/folder/@@roles' % self.folder.absolute_url())
     
-    >>> "Can manage" in browser.contents
-    True
-
     >>> browser.getControl(name='search_term').value = "delegate_contributor"
     >>> browser.getControl(name='form.button.Search').click()
-    >>> browser.getControl(name='entries.role_Contributor:records').getControl(value='True',index=-1).click()
+    >>> browser.getControl(name='entries.role_GroupContributor:records').getControl(value='True',index=-1).click()
 
     >>> browser.getControl(name='search_term').value = "delegate_editor"
     >>> browser.getControl(name='form.button.Search').click()
-    >>> browser.getControl(name='entries.role_Editor:records').getControl(value='True',index=-1).click()
+    >>> browser.getControl(name='entries.role_GroupEditor:records').getControl(value='True',index=-1).click()
 
     >>> #browser.getControl(name='search_term').value = "delegate_manager"
     >>> #browser.getControl(name='form.button.Search').click()
-    >>> #browser.getControl(name='entries.role_Manager:records').getControl(value='True',index=-1).click()
+    >>> #browser.getControl(name='entries.role_GroupManager:records').getControl(value='True',index=-1).click()
     
     >>> browser.getControl(name='search_term').value = "delegate_reader"
     >>> browser.getControl(name='form.button.Search').click()
-    >>> browser.getControl(name='entries.role_Reader:records').getControl(value='True',index=-1).click()
-
-    >>> browser.getControl(name='search_term').value = "delegate_reviewer"
-    >>> browser.getControl(name='form.button.Search').click()
-    >>> browser.getControl(name='entries.role_Reviewer:records').getControl(value='True',index=-1).click()
+    >>> browser.getControl(name='entries.role_GroupReader:records').getControl(value='True',index=-1).click()
 
     >>> browser.getControl("Save").click()
     >>> 'Changes saved' in browser.contents
@@ -57,7 +50,7 @@ other roles can do.
 Owner
 -----
 
-The owner should be able to delegate Reader, Editor and Contributor.
+The owner should not be able to access the roles page.
 
     >>> browser.open('%s/logout' % self.portal.absolute_url())
     >>> browser.open('%s/login_form' % self.portal.absolute_url())
@@ -66,28 +59,16 @@ The owner should be able to delegate Reader, Editor and Contributor.
     >>> browser.getControl('Log in').click()
     
     >>> browser.open('%s' % self.folder.absolute_url())
-    >>> browser.getLink('Sharing').click()
-    
-    >>> "Can add" in browser.contents
-    True
-    >>> "Can edit" in browser.contents
-    True
-    >>> "Can manage" in browser.contents
-    False
-    >>> "Can own" in browser.contents
-    False
-    >>> "Can subscribe" in browser.contents
-    False
-    >>> "Can view" in browser.contents
-    True
-    >>> "Can review" in browser.contents
-    False
+    >>> browser.getLink('Roles').click()
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
 
 Delegated Reader
 ----------------
 
 A delegated reader should only be able to view the page, not even get to the
-Sharing tab.
+Roles tab.
 
     >>> browser.open('%s/logout' % self.portal.absolute_url())
     >>> browser.open('%s/login_form' % self.portal.absolute_url())

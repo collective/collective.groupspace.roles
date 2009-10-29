@@ -33,21 +33,7 @@ class TestPortlet(TestCase):
         for m in mapping.keys():
             del mapping[m]
         addview = mapping.restrictedTraverse('+/' + portlet.addview)
-
-        # TODO: Pass a dictionary containing dummy form inputs from the add form
-        addview.createAndAdd(data={})
-
-        self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0], mygroupsportlet.Assignment))
-
-    # NOTE: This test can be removed if the portlet has no edit form
-    def test_invoke_edit_view(self):
-        mapping = PortletAssignmentMapping()
-        request = self.folder.REQUEST
-
-        mapping['foo'] = mygroupsportlet.Assignment()
-        editview = getMultiAdapter((mapping['foo'], request), name='edit')
-        self.failUnless(isinstance(editview, mygroupsportlet.EditForm))
+        self.assertEquals(len(mapping), 0)
 
     def test_obtain_renderer(self):
         context = self.folder

@@ -1,28 +1,21 @@
+"""
+My groups portlet
+"""
 from types import StringTypes
 
-from zope.interface import Interface
 from zope.interface import implements
+
+from Acquisition import aq_inner
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFCore.utils import getToolByName
 
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
-
-from zope import schema
-from zope.formlib import form
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from Products.CMFCore.utils import getToolByName
-
-from groupspace.roles import ROLES_MESSAGE_FACTORY as _
-
-from Acquisition import aq_inner
 
 from plone.memoize.compress import xhtml_compress
 from plone.memoize import ram
 from plone.memoize.instance import memoize
 from plone.app.portlets.cache import render_cachekey
-
-from zope.component import queryAdapter
-from plone.portlets.interfaces import IPortletContext
 
 class IMyGroupsPortlet(IPortletDataProvider):
     """A portlet
@@ -32,16 +25,6 @@ class IMyGroupsPortlet(IPortletDataProvider):
     same.
     """
 
-    # TODO: Add any zope.schema fields here to capture portlet configuration
-    # information. Alternatively, if there are no settings, leave this as an
-    # empty interface - see also notes around the add form and edit form
-    # below.
-
-    # some_field = schema.TextLine(title=_(u"Some field"),
-    #                              description=_(u"A field to use"),
-    #                              required=True)
-
-
 class Assignment(base.Assignment):
     """Portlet assignment.
 
@@ -50,14 +33,6 @@ class Assignment(base.Assignment):
     """
 
     implements(IMyGroupsPortlet)
-
-    # TODO: Set default values for the configurable parameters here
-
-    # some_field = u""
-
-    # TODO: Add keyword parameters for configurable parameters here
-    # def __init__(self, some_field=u"):
-    #    self.some_field = some_field
 
     def __init__(self):
         pass
@@ -80,23 +55,31 @@ class Renderer(base.Renderer):
 
     _template = ViewPageTemplateFile('mygroupsportlet.pt')
 
-    def __init__(self, *args):
-        base.Renderer.__init__(self, *args)
-        context = aq_inner(self.context)
-
     @ram.cache(render_cachekey)
     def render(self):
+        """
+        Render the My groups portlet
+        """
         return xhtml_compress(self._template())
 
     @property
     def available(self):
+        """
+        Only available if the user can access a groupspace
+        """
         return len(self._data())
 
     def allowed_groupspaces(self):
+        """
+        Returns the groupspaces a user is allowed to see.
+        """
         return self._data()
 
     @memoize
     def _data(self):
+        """
+        Return the catalog brains of all accessible groupspaces.        
+        """
         context = aq_inner(self.context)
 
         catalog = getToolByName(context, 'portal_catalog')
@@ -111,53 +94,43 @@ class Renderer(base.Renderer):
 
 
     def _getUserAndGroupIds(self):
+        """
+        Return a list of allowed groups and users usable in a
+        catalog search of allowedLocalUsersAndGroups.
+        """
         membership = getToolByName(self.context, 'portal_membership', None)
         if membership is None or membership.isAnonymousUser():
             return []
         member = membership.getAuthenticatedMember()
         if not member:
             return []
-        memberId = member.getId()
-        if memberId is None:
+        member_id = member.getId()
+        if member_id is None:
             # Basic users such as the special Anonymous users have no
             # id, but we can use their username instead.
             try:
-                memberId = member.getUserName()
+                member_id = member.getUserName()
             except AttributeError:
                 pass
-        if not memberId:
+        if not member_id:
             return []
-        allowed = ['user:%s' % memberId]
+        allowed = ['user:%s' % member_id]
         groups = member.getGroups()
         for group in groups:
             if type(group) in StringTypes:
                 allowed.append('group:%s' % group)
         return allowed
         
-# NOTE: If this portlet does not have any configurable parameters, you can
-# inherit from NullAddForm and remove the form_fields variable.
-
-class AddForm(base.AddForm):
+class AddForm(base.NullAddForm):
     """Portlet add form.
 
     This is registered in configure.zcml. The form_fields variable tells
     zope.formlib which fields to display. The create() method actually
     constructs the assignment that is being added.
     """
-    form_fields = form.Fields(IMyGroupsPortlet)
 
-    def create(self, data):
-        return Assignment(**data)
-
-
-# NOTE: IF this portlet does not have any configurable parameters, you can
-# remove this class definition and delete the editview attribute from the
-# <plone:portlet /> registration in configure.zcml
-
-class EditForm(base.EditForm):
-    """Portlet edit form.
-
-    This is registered with configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display.
-    """
-    form_fields = form.Fields(IMyGroupsPortlet)
+    def create(self):
+        """
+        Construct the added assignment.
+        """
+        return Assignment()

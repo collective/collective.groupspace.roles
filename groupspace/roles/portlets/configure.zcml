@@ -16,7 +16,7 @@
       edit_permission="cmf.ManagePortal"
       renderer=".mygroupsportlet.Renderer"
       addview=".mygroupsportlet.AddForm"
-      editview=".mygroupsportlet.EditForm"
       />
 
 </configure>
+
