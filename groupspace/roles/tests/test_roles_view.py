@@ -6,7 +6,7 @@ from zope.component import getMultiAdapter
 from base import WorkflowTestCase
 
 from zope.interface import alsoProvides
-from Products.GrufSpaces.interface.content import IGroupSpace 
+from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 
 class TestRolesView(WorkflowTestCase):
@@ -19,10 +19,17 @@ class TestRolesView(WorkflowTestCase):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Folder', id='folder')
         self.folder = self.portal.folder
-        # Make the folder provide the IGroupSpace interface
+        # Make the folder provide the ILocalGroupSpacePASRoles interface
         self.folder.user_roles = PersistentMapping()
         self.folder.group_roles = PersistentMapping()
-        alsoProvides(self.folder, IGroupSpace)
+        user_roles = {'delegate_admin': ['GroupAdmin',],
+                      'delegate_editor': ['GroupEditor',],
+                      'delegate_contributor': ['GroupContributor',],
+                      'delegate_reader': ['GroupReader',],
+                      }
+        self.folder.user_roles.update(user_roles)
+        alsoProvides(self.folder, ILocalGroupSpacePASRoles)
+        self.folder.reindexObject()
         
     def test_search_by_login_name(self):
         """Make sure we can search by login name on the Roles tab.
@@ -31,7 +38,8 @@ class TestRolesView(WorkflowTestCase):
         request.form['search_term'] = 'testuser'
         view = getMultiAdapter((self.folder, request), name='roles')
         results = view.user_search_results()
-        self.failUnless(len(results) and results[0].get('id') == 'testuser', msg="Didn't find testuser when I searched by login name.")
+        self.failUnless(len(results) and results[0].get('id') == 'testuser', 
+                      msg="Didn't find testuser when I searched by login name.")
 
     def test_search_with_nonascii_users(self):
         """Make sure we can search with users that have non-ascii-chars in their fullname.

@@ -108,6 +108,8 @@ class RolesView(SharingView):
             for user_id, user_roles in context.user_roles.items():
                 # Fetch the user and compile the existing role settings
                 user = userssource.get(user_id)
+                if user is None:
+                    continue
                 roles = {}
                 for role in knownroles:
                     # Only return information on any known roles
@@ -128,6 +130,8 @@ class RolesView(SharingView):
             for group_id, group_roles in context.group_roles.items():
                 # Fetch the group and compile the existing role settings
                 group = groupssource.get(group_id)
+                if group is None:
+                    continue
                 roles = {}
                 for role in knownroles:
                     # Only return information on any known roles

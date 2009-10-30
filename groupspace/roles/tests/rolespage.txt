@@ -1,6 +1,6 @@
-======================================
-Functional Testing of the Sharing Page
-======================================
+====================================
+Functional Testing of the Roles Page
+====================================
 
 The test setup has already ensured that we have a number of users available.
 
@@ -35,7 +35,7 @@ other roles can do.
     >>> browser.getControl(name='form.button.Search').click()
     >>> browser.getControl(name='entries.role_GroupEditor:records').getControl(value='True',index=-1).click()
 
-    >>> #browser.getControl(name='search_term').value = "delegate_manager"
+    >>> #browser.getControl(name='search_term').value = "delegate_admin"
     >>> #browser.getControl(name='form.button.Search').click()
     >>> #browser.getControl(name='entries.role_GroupManager:records').getControl(value='True',index=-1).click()
     
@@ -50,7 +50,7 @@ other roles can do.
 Owner
 -----
 
-The owner should not be able to access the roles page.
+The owner can access the roles page.
 
     >>> browser.open('%s/logout' % self.portal.absolute_url())
     >>> browser.open('%s/login_form' % self.portal.absolute_url())
@@ -60,9 +60,38 @@ The owner should not be able to access the roles page.
     
     >>> browser.open('%s' % self.folder.absolute_url())
     >>> browser.getLink('Roles').click()
-    Traceback (most recent call last):
-    ...
-    LinkNotFoundError
+    
+    >>> "Can manage" in browser.contents
+    True
+    >>> "Can add" in browser.contents
+    True
+    >>> "Can edit" in browser.contents
+    True
+    >>> "Can view" in browser.contents
+    True
+
+Delegated Admin
+---------------
+
+The delegated admin can access the roles page.
+
+    >>> browser.open('%s/logout' % self.portal.absolute_url())
+    >>> browser.open('%s/login_form' % self.portal.absolute_url())
+    >>> browser.getControl(name='__ac_name').value = 'test_user_1_'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl('Log in').click()
+    
+    >>> browser.open('%s' % self.folder.absolute_url())
+    >>> browser.getLink('Roles').click()
+    
+    >>> "Can manage" in browser.contents
+    True
+    >>> "Can add" in browser.contents
+    True
+    >>> "Can edit" in browser.contents
+    True
+    >>> "Can view" in browser.contents
+    True
 
 Delegated Reader
 ----------------
@@ -77,7 +106,7 @@ Roles tab.
     >>> browser.getControl('Log in').click()
     
     >>> browser.open('%s' % self.folder.absolute_url())
-    >>> browser.getLink('Sharing')
+    >>> browser.getLink('Roles')
     Traceback (most recent call last):
     ...
     LinkNotFoundError
@@ -85,7 +114,8 @@ Roles tab.
 Delegated Editor
 ----------------
 
-A delegated Editor can give other people "view" and "edit" rights.
+A delegated Editor should only be able to view the page, not even get to the
+Roles tab.
 
     >>> browser.open('%s/logout' % self.portal.absolute_url())
     >>> browser.open('%s/login_form' % self.portal.absolute_url())
@@ -94,17 +124,10 @@ A delegated Editor can give other people "view" and "edit" rights.
     >>> browser.getControl('Log in').click()
     
     >>> browser.open('%s' % self.folder.absolute_url())
-    >>> browser.getLink('Sharing').click()
-    
-    >>> "Can add" in browser.contents
-    False
-    >>> "Can edit" in browser.contents
-    True
-    >>> "Can view" in browser.contents
-    True
-    >>> "Can review" in browser.contents
-    False
-
+    >>> browser.getLink('Roles')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
 
 Delegated Contributor
 ---------------------
@@ -118,65 +141,8 @@ A delegated Contributor cannot assign any further rights.
     >>> browser.getControl('Log in').click()
     
     >>> browser.open('%s' % self.folder.absolute_url())
-    >>> browser.getLink('Sharing').click()
+    >>> browser.getLink('Roles').click()
     Traceback (most recent call last):
     ...
     LinkNotFoundError
 
-Delegated Reviewer
-------------------
-
-A delegated Reviewer can assign "view" and "review" rights.
-
-    >>> browser.open('%s/logout' % self.portal.absolute_url())
-    >>> browser.open('%s/login_form' % self.portal.absolute_url())
-    >>> browser.getControl(name='__ac_name').value = 'delegate_reviewer'
-    >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl('Log in').click()
-    
-    >>> browser.open('%s' % self.folder.absolute_url())
-    >>> browser.getLink('Sharing').click()
-    
-    >>> "Can add" in browser.contents
-    False
-    >>> "Can edit" in browser.contents
-    False
-    >>> "Can manage" in browser.contents
-    False
-    >>> "Can own" in browser.contents
-    False
-    >>> "Can subscribe" in browser.contents
-    False
-    >>> "Can view" in browser.contents
-    True
-    >>> "Can review" in browser.contents
-    True
-
-#Delegated Manager
-#-----------------
-#
-#A delegated Manager can assign all rights.
-#
-#    >>> browser.open('%s/logout' % self.portal.absolute_url())
-#    >>> browser.open('%s/login_form' % self.portal.absolute_url())
-#    >>> browser.getControl(name='__ac_name').value = 'delegate_manager'
-#    >>> browser.getControl(name='__ac_password').value = 'secret'
-#    >>> browser.getControl('Log in').click()
-#    
-#    >>> browser.open('%s' % self.folder.absolute_url())
-#    >>> browser.getLink('Sharing').click()
-#    
-#    >>> "Can add" in browser.contents
-#    True
-#    >>> "Can edit" in browser.contents
-#    True
-#    >>> "Can manage" in browser.contents
-#    False
-#    >>> "Can own" in browser.contents
-#    False
-#    >>> "Can subscribe" in browser.contents
-#    False
-#    >>> "Can view" in browser.contents
-#    True
-#    >>> "Can review" in browser.contents
-#    True

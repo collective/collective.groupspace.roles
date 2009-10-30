@@ -14,7 +14,7 @@ from Products.PloneTestCase.PloneTestCase import setupPloneSite
 from DateTime import DateTime
 
 from zope.interface import alsoProvides
-from Products.GrufSpaces.interface.content import IGroupSpace 
+from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 
 from zope.interface import implements
@@ -51,11 +51,10 @@ class WorkflowFunctionalTestCase(FunctionalTestCase):
         self.portal.acl_users._doAddUser('editor', 'secret', ['Editor',],[])
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader',],[])
         
-        self.portal.acl_users._doAddUser('delegate_reader', 'secret', ['Member',],[]) 
+        self.portal.acl_users._doAddUser('delegate_admin', 'secret', ['Member',],[])
         self.portal.acl_users._doAddUser('delegate_editor', 'secret', ['Member',],[])
         self.portal.acl_users._doAddUser('delegate_contributor', 'secret', ['Member',],[])
-        self.portal.acl_users._doAddUser('delegate_reviewer', 'secret', ['Member',],[])
-        #self.portal.acl_users._doAddUser('delegate_manager', 'secret', ['Member',],[])
+        self.portal.acl_users._doAddUser('delegate_reader', 'secret', ['Member',],[]) 
 
         self.workflow = self.portal.portal_workflow
         self.workflow.setChainForPortalTypes(('Document',),('one_state_workflow',))    
@@ -71,7 +70,8 @@ class WorkflowFunctionalTestCase(FunctionalTestCase):
         # Make the folder provide the IGroupSpace interface
         self.folder.user_roles = PersistentMapping()
         self.folder.group_roles = PersistentMapping()
-        alsoProvides(self.folder, IGroupSpace)
+        alsoProvides(self.folder, ILocalGroupSpacePASRoles)
+        self.folder.reindexObject()
         
         self.folder.invokeFactory('News Item', 'newsitem1')
         self.newsitem = self.folder.newsitem1
