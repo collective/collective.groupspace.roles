@@ -51,10 +51,10 @@ class WorkflowFunctionalTestCase(FunctionalTestCase):
         self.portal.acl_users._doAddUser('editor', 'secret', ['Editor',],[])
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader',],[])
         
-        self.portal.acl_users._doAddUser('delegate_admin', 'secret', ['Member',],[])
-        self.portal.acl_users._doAddUser('delegate_editor', 'secret', ['Member',],[])
-        self.portal.acl_users._doAddUser('delegate_contributor', 'secret', ['Member',],[])
-        self.portal.acl_users._doAddUser('delegate_reader', 'secret', ['Member',],[]) 
+        self.portal.acl_users._doAddUser('groupadmin', 'secret', ['Member',],[])
+        self.portal.acl_users._doAddUser('groupeditor', 'secret', ['Member',],[])
+        self.portal.acl_users._doAddUser('groupcontributor', 'secret', ['Member',],[])
+        self.portal.acl_users._doAddUser('groupreader', 'secret', ['Member',],[]) 
 
         self.workflow = self.portal.portal_workflow
         self.workflow.setChainForPortalTypes(('Document',),('one_state_workflow',))    
