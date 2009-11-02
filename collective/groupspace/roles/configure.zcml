@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="groupspace.roles">
+    i18n_domain="collective.groupspace.roles">
 
     <include package=".browser" />
     <include package=".portlets" />
@@ -41,16 +41,16 @@
         title="GrufSpaces: Assign GroupSpace Roles"
         />
 
-    <subscriber for="groupspace.roles.interfaces.ILocalGroupSpacePASRoles
-                     groupspace.roles.interfaces.ILocalGroupSpacePASRolesChangeEvent"
-                handler="groupspace.roles.localroles.setPolicyDefaultLocalRoles"/>
+    <subscriber for="collective.groupspace.roles.interfaces.ILocalGroupSpacePASRoles
+                     collective.groupspace.roles.interfaces.ILocalGroupSpacePASRolesChangeEvent"
+                handler="collective.groupspace.roles.localroles.setPolicyDefaultLocalRoles"/>
         
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="groupspace.roles"
+        title="collective.groupspace.roles"
         directory="profiles/default"
-        description="Extension profile for default groupspace.roles setup."
+        description="Extension profile for default collective.groupspace.roles setup."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
             

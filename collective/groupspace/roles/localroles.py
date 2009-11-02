@@ -9,7 +9,7 @@ from Products.GrufSpaces.interface import IRolesPageRole
 from Products.GrufSpaces.permissions import AssignGroupSpaceRoles
 from plone.app.workflow import PloneMessageFactory as _
 from plone.indexer.decorator import indexer
-from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
+from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 
 @indexer(ILocalGroupSpacePASRoles)
 def allowedLocalUsersAndGroups(obj):

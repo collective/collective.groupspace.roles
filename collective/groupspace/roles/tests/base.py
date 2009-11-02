@@ -14,7 +14,7 @@ from Products.PloneTestCase.PloneTestCase import setupPloneSite
 from DateTime import DateTime
 
 from zope.interface import alsoProvides
-from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
+from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 
 from zope.interface import implements

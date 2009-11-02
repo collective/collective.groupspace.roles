@@ -8,8 +8,8 @@ from plone.portlets.interfaces import IPortletRenderer
 
 from plone.app.portlets.storage import PortletAssignmentMapping
 
-from groupspace.roles.portlets import mygroupsportlet
-from groupspace.roles.tests.base_mygroupsportlet import TestCase
+from collective.groupspace.roles.portlets import mygroupsportlet
+from collective.groupspace.roles.tests.base_mygroupsportlet import TestCase
 
 
 class TestPortlet(TestCase):
@@ -18,8 +18,8 @@ class TestPortlet(TestCase):
         self.setRoles(('Manager',))
 
     def test_portlet_type_registered(self):
-        portlet = getUtility(IPortletType, name='groupspace.roles.portlets.MyGroupsPortlet')
-        self.assertEquals(portlet.addview, 'groupspace.roles.portlets.MyGroupsPortlet')
+        portlet = getUtility(IPortletType, name='collective.groupspace.roles.portlets.MyGroupsPortlet')
+        self.assertEquals(portlet.addview, 'collective.groupspace.roles.portlets.MyGroupsPortlet')
 
     def test_interfaces(self):
         # TODO: Pass any keywoard arguments to the Assignment constructor
@@ -28,7 +28,7 @@ class TestPortlet(TestCase):
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
 
     def test_invoke_add_view(self):
-        portlet = getUtility(IPortletType, name='groupspace.roles.portlets.MyGroupsPortlet')
+        portlet = getUtility(IPortletType, name='collective.groupspace.roles.portlets.MyGroupsPortlet')
         mapping = self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
         for m in mapping.keys():
             del mapping[m]

@@ -17,21 +17,21 @@ def setup_product():
     # Load the ZCML configuration for this package and its dependencies
 
     fiveconfigure.debug_mode = True
-    import groupspace.roles.portlets
-    zcml.load_config('configure.zcml', groupspace.roles)
+    import collective.groupspace.roles.portlets
+    zcml.load_config('configure.zcml', collective.groupspace.roles)
     fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
     # should be available. This can't happen until after we have loaded
     # the ZCML.
 
-    ztc.installPackage('groupspace.roles')
+    ztc.installPackage('collective.groupspace.roles')
 
 # The order here is important: We first call the deferred function and then
 # let PloneTestCase install it during Plone site setup
 
 setup_product()
-ptc.setupPloneSite(products=['groupspace.roles'])
+ptc.setupPloneSite(products=['collective.groupspace.roles'])
 
 
 class TestCase(ptc.PloneTestCase):

@@ -1,4 +1,4 @@
 """
-portlets for groupspace.roles
+portlets for collective.groupspace.roles
 """
 

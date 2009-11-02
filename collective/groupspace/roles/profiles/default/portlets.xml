@@ -7,7 +7,7 @@
 	<!-- -*- extra stuff goes here -*- -->
 
    <portlet
-     addview="groupspace.roles.portlets.MyGroupsPortlet"
+     addview="collective.groupspace.roles.portlets.MyGroupsPortlet"
      title="My Groups"
      description="Shows all GroupSpaces"
    />

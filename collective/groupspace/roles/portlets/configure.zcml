@@ -1,7 +1,7 @@
 <configure 
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="groupspace.roles">
+    i18n_domain="collective.groupspace.roles">
   <!-- Ensure Plone's portlets ZCML has already been processed; without
        this, we may get a permission lookup error
   -->
@@ -9,7 +9,7 @@
   <!-- -*- extra stuff goes here -*- -->
 
   <plone:portlet
-      name="groupspace.roles.portlets.MyGroupsPortlet"
+      name="collective.groupspace.roles.portlets.MyGroupsPortlet"
       interface=".mygroupsportlet.IMyGroupsPortlet"
       assignment=".mygroupsportlet.Assignment"
       view_permission="zope2.View"

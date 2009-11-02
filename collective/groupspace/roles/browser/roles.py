@@ -29,7 +29,7 @@ from Globals import PersistentMapping
 from zope.component.interfaces import ObjectEvent
 from zope.app.container.interfaces import IObjectMovedEvent
 
-from groupspace.roles.interfaces import ILocalGroupSpacePASRolesChangeEvent
+from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRolesChangeEvent
 
 class LocalGroupSpacePASRolesChangeEvent(ObjectEvent):
     """

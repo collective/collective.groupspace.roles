@@ -6,7 +6,7 @@ from zope.component import getMultiAdapter
 from base import WorkflowTestCase
 
 from zope.interface import alsoProvides
-from groupspace.roles.interfaces import ILocalGroupSpacePASRoles
+from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 
 class TestRolesView(WorkflowTestCase):
