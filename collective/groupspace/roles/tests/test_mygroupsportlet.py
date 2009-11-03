@@ -64,8 +64,8 @@ class TestRenderer(TestCase):
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
     def test_render(self):
-        # TODO: Pass any keywoard arguments to the Assignment constructor
-        r = self.renderer(context=self.portal, assignment=mygroupsportlet.Assignment())
+        # TODO: Pass any keyworrd arguments to the Assignment constructor
+        r = self.renderer(context=self.folder, assignment=mygroupsportlet.Assignment())
         r = r.__of__(self.folder)
         r.update()
         output = r.render()
