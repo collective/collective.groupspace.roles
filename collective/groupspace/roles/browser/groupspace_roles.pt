@@ -8,7 +8,8 @@
 
 <body>
 <div metal:fill-slot="body"
-     tal:define="context_state context/@@plone_context_state">
+     tal:define="context_state context/@@plone_context_state;
+                 email python:member.getProperty('email','')">
 
 <h1 class="documentFirstHeading"
     i18n:translate="heading_currently_assigned_roles">
@@ -118,7 +119,20 @@
     
 </table>
 
-    <div class="field">
+    <div class="field" tal:condition="python:not email">
+        <div class="formHelp" i18n:translate="no_email_in_preferences">
+              You need to set your email address in the preferences in order to send messages.
+        </div>
+        <input class="noborder" type="checkbox"
+               name="notify_user_assignment:boolean" value="1"
+               disabled="disabled" id="notify_user_assignment" /> 
+        <label for="notify_user_assignment"
+               i18n:translate="label_send_email_notification">
+        Send an email notification
+        </label>
+    </div>
+
+    <div class="field" tal:condition="email">
         <input class="noborder" type="checkbox"
                name="notify_user_assignment:boolean" value="1"
                checked="checked" id="notify_user_assignment" /> 
