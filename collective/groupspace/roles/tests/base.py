@@ -18,7 +18,7 @@ from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 
 from zope.interface import implements
-from Products.GrufSpaces.interface import IRolesPageRole
+from collective.groupspace.roles.interfaces import IRolesPageRole
 from plone.app.workflow import PloneMessageFactory as _
 
 # Set up a Plone site - note that the portlets branch of CMFPlone applies
