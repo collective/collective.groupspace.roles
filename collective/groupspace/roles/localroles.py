@@ -5,8 +5,8 @@ Local roles for PAS
 from borg.localrole.interfaces import ILocalRoleProvider
 from zope.interface import implements
 from zope.component import adapts
-from Products.GrufSpaces.interface import IRolesPageRole
-from Products.GrufSpaces.permissions import AssignGroupSpaceRoles
+from collective.groupspace.roles.interfaces import IRolesPageRole
+from collective.groupspace.roles.config import ROLE_ASSIGNMENT_PERMISSION
 from plone.app.workflow import PloneMessageFactory as _
 from plone.indexer.decorator import indexer
 from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
@@ -31,21 +31,21 @@ class GroupAdminRole(object):
     implements(IRolesPageRole)
     
     title = _(u"title_can_manage", default=u"Can manage")
-    required_permission = AssignGroupSpaceRoles
+    required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 class GroupEditorRole(object):
     """Editor role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_edit", default=u"Can edit")
-    required_permission = AssignGroupSpaceRoles
+    required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 class GroupContributorRole(object):
     """Contributor role for groupspaces"""
     implements(IRolesPageRole)
     
     title = _(u"title_can_edit", default=u"Can add")
-    required_permission = AssignGroupSpaceRoles
+    required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 
 class GroupReaderRole(object):
@@ -53,7 +53,7 @@ class GroupReaderRole(object):
     implements(IRolesPageRole)
     
     title = _(u"title_can_view", default=u"Can view")
-    required_permission = AssignGroupSpaceRoles
+    required_permission = ROLE_ASSIGNMENT_PERMISSION
 
 class LocalRoles(object):
     """Provide a local role manager for group spaces that allows querying the
@@ -151,13 +151,4 @@ def setPolicyDefaultLocalRoles(obj, event):
         # Now that the local roles have changed, it is necessary to reindex
         # the security
         obj.reindexObjectSecurity()
-
-
-
-
-
-
-
-
-
 
