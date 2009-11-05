@@ -7,7 +7,7 @@
     <role name="GroupReader"/>
   </roles>
   <permissions>
-    <permission name="GrufSpaces: Assign GroupSpace Roles"
+    <permission name="collective.groupspace.roles: Assign GroupSpace Roles"
                 acquire="True">
       <role name="Manager"/>
       <role name="Owner"/>
