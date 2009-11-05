@@ -22,7 +22,7 @@ from plone.memoize.instance import clearafter
 
 from plone.app.workflow import PloneMessageFactory as _
 from plone.app.workflow.browser.sharing import SharingView
-from Products.GrufSpaces.interface import IRolesPageRole
+from collective.groupspace.roles.interfaces import IRolesPageRole
 
 from Globals import PersistentMapping
 
