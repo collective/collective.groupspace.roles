@@ -36,11 +36,6 @@
         factory=".localroles.GroupReaderRole"
         />
 
-    <permission
-        id="grufspaces.AssignGroupSpaceRoles"
-        title="GrufSpaces: Assign GroupSpace Roles"
-        />
-
     <subscriber for="collective.groupspace.roles.interfaces.ILocalGroupSpacePASRoles
                      collective.groupspace.roles.interfaces.ILocalGroupSpacePASRolesChangeEvent"
                 handler="collective.groupspace.roles.localroles.setPolicyDefaultLocalRoles"/>
