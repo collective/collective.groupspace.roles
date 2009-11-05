@@ -11,7 +11,7 @@
    <property name="icon_expr"></property>
    <property name="available_expr">python:object.restrictedTraverse('@@plone_interface_info').provides('collective.groupspace.roles.interfaces.ILocalGroupSpacePASRoles')</property>
    <property name="permissions">
-    <element value="GrufSpaces: Assign GroupSpace Roles"/>
+    <element value="collective.groupspace.roles: Assign GroupSpace Roles"/>
    </property>
    <property name="visible">True</property>
   </object>
