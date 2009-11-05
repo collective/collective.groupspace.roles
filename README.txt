@@ -1,11 +1,13 @@
 Introduction
 ============
 
-Implements the roles tab for the GroupSpace content type of GrufSpaces.
+Implements a roles tab for any content type implementing the ILocalGroupSpacePASRoles
+interface. An example content type is contained in collective.groupspace.content.
 
-The tab looks exactly like the Plone sharing tab, but stores the local roles
-for users and groups in two attributes on the content type. The local roles
-can then be assigned dynamically in the context of a GroupSpace using PAS.
+The tab looks exactly like the Plone sharing tab, but local roles for users and 
+groups are stored in two attributes on the content type. The local roles can then 
+be assigned in the context of a GroupSpace, and are dynamically added to the roles
+of a visiting user with borg.localrole.
 
 collective.groupspace.roles Installation
 ----------------------------------------
