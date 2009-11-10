@@ -1,3 +1,15 @@
+1.0.1 (2009-11-10)
+==================
+
+Internal
+--------
+
+- The getRoles method of the LocalRoles class now returns a tuple instead of a set
+
+- Refactoring setPolicyDefaultLocalRoles
+
+- more unit tests added
+
 1.0 (2009-10-28)
 ================
 

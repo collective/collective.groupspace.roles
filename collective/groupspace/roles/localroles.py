@@ -16,6 +16,16 @@ def allowedLocalUsersAndGroups(obj):
     """
     A catalog index similar to allowedRolesAndUsers, but for local roles
     of users and groups only.
+
+    The ILocalGroupSpacePASRoles must be implemented by the objects, so
+    the user_roles and group_roles attributes must be present.
+    
+    The actual roles assigned to the users are not checked, and it is 
+    assumed that any user that has any role will be allowed.
+    
+    This method returns a tuple of the form:
+    
+    ('user:sampleuser1', 'user:sampleuser2', 'group:samplegroup1'}
     """
     result = []
     if not obj.user_roles is None:
@@ -91,7 +101,7 @@ class LocalRoles(object):
             self.context.user_roles
             self.context.group_roles
         except AttributeError:
-            return roles        
+            return list(roles)        
         if not self.context.user_roles is None:
             if principal_id in self.context.user_roles.keys():
                 for role in self.context.user_roles[principal_id]:
@@ -100,55 +110,59 @@ class LocalRoles(object):
             if principal_id in self.context.group_roles.keys():
                 for role in self.context.group_roles[principal_id]:
                     roles.add(role)
-        return roles    
+        return list(roles)    
 
 def setPolicyDefaultLocalRoles(obj, event):
     """
     Some local workflow policies only work when certain local roles are 
-    given by default. A common case is that the search only works when at least
-    one local role is present that gives the View permission.
+    given by default. A common case is that the search only works when 
+    at least one local role is present that gives the View permission.
     """
-    # Unite user ids
-    users = set(event.old_user_roles.keys())
-    users.update(set(event.new_user_roles.keys()))
-    # Unite group ids
-    groups = set(event.old_group_roles.keys())
-    groups.update(set(event.new_group_roles.keys()))
-
+    # Just one role is needed to give the View permission
+    # GroupReader is the minimal role needed, so use this
     default_roles = ["GroupReader", ]
 
-    user_ids_to_clear = []
-    for user in users:
-        if not event.new_user_roles.has_key(user):
-            # The user has all his roles removed, so add it to the list
-            user_ids_to_clear.append(user)
-        else:                    
-            assert(event.new_user_roles[user] != 0)
-            # No roles get removed, so enforce the default local roles
-            obj.manage_setLocalRoles(user, list(default_roles))
-            changed = True
-    if user_ids_to_clear:
-        # Delete all local roles for users
-        obj.manage_delLocalRoles(userids=user_ids_to_clear)
-        changed = True                 
+    remove, add = _local_roles_to_remove_and_add(event)
 
-    group_ids_to_clear = []
-    for group in groups:
-        if not event.new_group_roles.has_key(group):
-            # The group has all its roles removed, so add it to the list
-            group_ids_to_clear.append(group)
-        else:
-            assert(event.new_group_roles[group] != 0)
-            # No roles get removed, so enforce the default local roles
-            obj.manage_setLocalRoles(group, list(default_roles))
-            changed = True            
-    if group_ids_to_clear:
-        # Delete all local roles for groups
-        obj.manage_delLocalRoles(userids=group_ids_to_clear)
-        changed = True                 
+    if remove:
+        # Delete all local roles for the principals
+        obj.manage_delLocalRoles(userids=remove)
 
-    if changed:
+    for principal in add:
+        # Enforce just the default local roles
+        obj.manage_setLocalRoles(principal, list(default_roles))
+
+    if remove or add:
         # Now that the local roles have changed, it is necessary to reindex
         # the security
         obj.reindexObjectSecurity()
 
+
+def _local_roles_to_remove_and_add(event):
+
+    # Unite user ids
+    users = set(event.old_user_roles.keys())
+    users.update(set(event.new_user_roles.keys()))
+
+    # Unite group ids
+    groups = set(event.old_group_roles.keys())
+    groups.update(set(event.new_group_roles.keys()))
+
+    remove = []
+    add = []    
+    for user in users:
+        if not event.new_user_roles.has_key(user):
+            # The user has all his roles removed, so add it to the list
+            remove.append(user)
+        else:
+            # The user just has his roles changed
+            add.append(user)
+
+    for group in groups:
+        if not event.new_group_roles.has_key(group):
+            # The group has all its roles removed, so add it to the list
+            remove.append(group)
+        else:
+            # The group just has its roles changed
+            add.append(group)
+    return remove, add

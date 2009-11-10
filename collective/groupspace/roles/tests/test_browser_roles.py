@@ -5,10 +5,10 @@ from collective.groupspace.roles.browser.roles import LocalGroupSpacePASRolesCha
 class TestLocalGroupSpacePASRolesChangeEvent(unittest.TestCase):
     def test___init__(self):
         object = None
-        old_user_roles = 1
-        new_user_roles = 2
-        old_group_roles = 3
-        new_group_roles = 4
+        old_user_roles = {'user1':['role1','role2']}
+        new_user_roles = {'user1':['role1']}
+        old_group_roles = {'group1':['role1']}
+        new_group_roles = {'group1':['role1', 'role2']}
         event = LocalGroupSpacePASRolesChangeEvent(object, 
                                                    old_user_roles, 
                                                    new_user_roles, 
