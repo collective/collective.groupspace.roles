@@ -25,10 +25,8 @@ from plone.app.workflow import PloneMessageFactory as _
 # a portlets profile.
 setupPloneSite()
 
-class WorkflowTestCase(PloneTestCase):
-    """Base class for integration tests for plone.app.workflow. This may
-    provide specific set-up and tear-down operations, or provide convenience
-    methods.
+class PloneTestCase(PloneTestCase):
+    """Base class for integration tests.
     """
     
 class ManagerRole(object):
@@ -36,10 +34,8 @@ class ManagerRole(object):
     title = _(u"title_can_manage", default=u"Can manage")
     required_permission = "Change local roles"        
     
-class WorkflowFunctionalTestCase(FunctionalTestCase):
-    """Base class for functional integration tests for plone.app.workflow. 
-    This may provide specific set-up and tear-down operations, or provide 
-    convenience methods.
+class FunctionalTestCase(FunctionalTestCase):
+    """Base class for functional for integration tests
     """
 
     def afterSetUp(self):

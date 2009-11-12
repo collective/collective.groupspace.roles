@@ -1,9 +1,10 @@
 import unittest
+from base import PloneTestCase
 from collective.groupspace.roles.localroles import allowedLocalUsersAndGroups
 from collective.groupspace.roles.localroles import LocalRoles
 from collective.groupspace.roles.localroles import setPolicyDefaultLocalRoles
 
-class TestAllowedLocalUsersAndGroups(unittest.TestCase):
+class TestAllowedLocalUsersAndGroups(PloneTestCase):
 
     def test_allowed_local_users_and_groups_1(self):
         """First test for empty list when no roles are set
@@ -57,7 +58,7 @@ class TestAllowedLocalUsersAndGroups(unittest.TestCase):
         result.sort()
         self.assertEqual(expected, result)
 
-class TestLocalRoles(unittest.TestCase):
+class TestLocalRoles(PloneTestCase):
     def test___init__(self):
         class Dummy:
             pass
@@ -124,7 +125,7 @@ class TestLocalRoles(unittest.TestCase):
         local_roles = LocalRoles(obj)
         self.assertEqual(['role1', 'role2'], local_roles.getRoles('group1'))
 
-class TestSetPolicyDefaultLocalRoles(unittest.TestCase):
+class TestSetPolicyDefaultLocalRoles(PloneTestCase):
         
     def setUp(self):
         unittest.TestCase.setUp(self)

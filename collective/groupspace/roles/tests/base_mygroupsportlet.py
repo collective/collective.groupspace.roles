@@ -34,7 +34,7 @@ setup_product()
 ptc.setupPloneSite(products=['collective.groupspace.roles'])
 
 
-class TestCase(ptc.PloneTestCase):
+class PloneTestCase(ptc.PloneTestCase):
     """Base class used for test cases
     """
 

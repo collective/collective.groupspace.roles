@@ -1,8 +1,8 @@
 import unittest
-
+from base import PloneTestCase
 from collective.groupspace.roles.browser.roles import LocalGroupSpacePASRolesChangeEvent
 
-class TestLocalGroupSpacePASRolesChangeEvent(unittest.TestCase):
+class TestLocalGroupSpacePASRolesChangeEvent(PloneTestCase):
     def test___init__(self):
         object = None
         old_user_roles = {'user1':['role1','role2']}

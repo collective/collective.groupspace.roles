@@ -1,3 +1,11 @@
+Next release
+============
+
+Internal
+--------
+
+- Consistently use PloneTestCase base class for unit tests instead of unittest.TestCase
+
 1.0.1 (2009-11-10)
 ==================
 

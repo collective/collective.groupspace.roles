@@ -9,10 +9,10 @@ from plone.portlets.interfaces import IPortletRenderer
 from plone.app.portlets.storage import PortletAssignmentMapping
 
 from collective.groupspace.roles.portlets import mygroupsportlet
-from collective.groupspace.roles.tests.base_mygroupsportlet import TestCase
+from collective.groupspace.roles.tests.base_mygroupsportlet import PloneTestCase
 
 
-class TestPortlet(TestCase):
+class TestPortlet(PloneTestCase):
 
     def afterSetUp(self):
         self.setRoles(('Manager',))
@@ -48,7 +48,7 @@ class TestPortlet(TestCase):
         self.failUnless(isinstance(renderer, mygroupsportlet.Renderer))
 
 
-class TestRenderer(TestCase):
+class TestRenderer(PloneTestCase):
 
     def afterSetUp(self):
         self.setRoles(('Manager',))
@@ -78,3 +78,7 @@ def test_suite():
     suite.addTest(makeSuite(TestPortlet))
     suite.addTest(makeSuite(TestRenderer))
     return suite
+    
+if __name__ == '__main__':
+    unittest.main()
+    

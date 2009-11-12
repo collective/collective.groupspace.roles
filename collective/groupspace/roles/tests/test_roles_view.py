@@ -4,14 +4,14 @@
 import unittest
 
 from zope.component import getMultiAdapter
-from base import WorkflowTestCase
+from base import PloneTestCase
 
 from zope.interface import alsoProvides
 from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 from Globals import PersistentMapping
 from collective.groupspace.roles.browser.roles import RolesView
 
-class TestRolesView(WorkflowTestCase):
+class TestRolesView(PloneTestCase):
 
     def afterSetUp(self):
         self.portal.acl_users._doAddUser('testuser', 'secret', ['Member'], [])
@@ -89,5 +89,6 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestRolesView))
     return suite
+
 if __name__ == '__main__':
     unittest.main()
