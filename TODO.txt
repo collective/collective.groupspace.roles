@@ -1,0 +1,6 @@
+- when adding a role in set_policy_default_local_roles, and there are
+  already existing roles, it is not necessary to add the default role
+  again
+
+- The default local role assigned in set_policy_default_local_roles 
+  overwrites any local roles. The local roles should be merged instead.
