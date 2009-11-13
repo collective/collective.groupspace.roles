@@ -21,7 +21,7 @@ tests_require=['zope.testing']
 
 setup(name='collective.groupspace.roles',
     version=version,
-    description="A roles tab for assigning dynamic local roles",
+    description="Plone collective.groupspace view for assigning roles to participants",
     long_description=long_description,
     classifiers=[
       "Development Status :: 4 - Beta",
