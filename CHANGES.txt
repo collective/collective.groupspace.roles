@@ -4,6 +4,23 @@ Next release
 Internal
 --------
 
+1.0.2 (2010-01-10)
+==================
+
+Features
+--------
+
+- The checkbox for sending an email notification on the roles tab is now unchecked by default.
+
+Bug Fixes
+---------
+
+- The roles tab now shows the right translation for the "Can add" role. Thanks to Alain Salvatore
+  for pointing this out.
+
+Internal
+--------
+
 - Consistently use PloneTestCase base class for unit tests instead of unittest.TestCase
 
 1.0.1 (2009-11-10)

@@ -135,7 +135,7 @@
     <div class="field" tal:condition="email">
         <input class="noborder" type="checkbox"
                name="notify_user_assignment:boolean" value="1"
-               checked="checked" id="notify_user_assignment" /> 
+               id="notify_user_assignment" /> 
         <label for="notify_user_assignment"
                i18n:translate="label_send_email_notification">
         Send an email notification

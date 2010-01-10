@@ -54,7 +54,7 @@ class GroupContributorRole(object):
     """Contributor role for groupspaces"""
     implements(IRolesPageRole)
     
-    title = _(u"title_can_edit", default=u"Can add")
+    title = _(u"title_can_add", default=u"Can add")
     required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 
