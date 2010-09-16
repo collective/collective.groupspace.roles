@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AESCM Configuration 1.0\n"
+"POT-Creation-Date: 2010-09-16 08:47+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Quadra Informatique <plone@quadra-informatique.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: fr\n"
+"X-Poedit-Country: FRANCE\n"
+
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:32
+msgid "Search for user or group"
+msgstr "Rechercher un utilisateur ou un groupe"
+
+#. Default: "Groups"
+#: collective.groupspace.roles/collective/groupspace/roles/portlets/mygroupsportlet.pt:9
+msgid "box_groups"
+msgstr "Mes groupes"
+
+#. Default: "Search"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:41
+msgid "box_search"
+msgstr "Recherche"
+
+#. Default: "A portlet which can render a listing of all GroupSpaces a user can participate in."
+#: collective.groupspace.roles/collective/groupspace/roles/profiles/default/portlets.xml
+msgid "description_my_groups_portlet"
+msgstr "Une portlet qui qui liste les groupes de travail dont l'utilisateur est membre."
+
+#. Default: "You can control who can participate in this group space."
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:21
+msgid "description_roles_control"
+msgstr "Vous pouvez contrôler qui participe à ce groupe de travail."
+
+#. Default: "Roles for \"${folder}\""
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:18
+msgid "heading_currently_assigned_roles"
+msgstr "Rôles pour \"${folder}\""
+
+#. Default: "Cancel"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:147
+msgid "label_cancel"
+msgstr "Annuler"
+
+#. Default: "User/Group"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:60
+msgid "label_name"
+msgstr "Utilisateur/Groupe"
+
+#. Default: "Save"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:146
+msgid "label_save"
+msgstr "Enregistrer"
+
+#. Default: "Send an email notification"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:130
+msgid "label_send_email_notification"
+msgstr "Envoyer un courriel de notification"
+
+#. Default: "You need to set your email address in the preferences in order to send messages."
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:124
+msgid "no_email_in_preferences"
+msgstr "Vous devez définir une adresse courriel dans vos préférences pour envoyer des messages."
+
+#. Default: "Current roles permissions"
+#: collective.groupspace.roles/collective/groupspace/roles/browser/groupspace_roles.pt:50
+msgid "summary_assigned_roles"
+msgstr "Permissions actuelles"
+
+#. Default: "Can manage"
+#: collective.groupspace.roles/collective/groupspace/roles/localroles.py:44
+msgid "title_can_manage"
+msgstr "Peut administrer"
+
+#. Default: "My Groups"
+#: collective.groupspace.roles/collective/groupspace/roles/profiles/default/portlets.xml
+msgid "title_my_groups_portlet"
+msgstr "Mes groupes"
+

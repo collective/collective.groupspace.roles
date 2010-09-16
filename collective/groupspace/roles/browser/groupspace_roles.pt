@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
       metal:use-macro="context/@@standard_macros/page"
-      i18n:domain="grufspaces">
+      i18n:domain="collective.groupspace.roles">
 
 <head>
 </head>
@@ -9,6 +9,7 @@
 <body>
 <div metal:fill-slot="body"
      tal:define="context_state context/@@plone_context_state;
+                 member context/@@plone_portal_state/member;
                  email python:member.getProperty('email','')">
 
 <h1 class="documentFirstHeading"
@@ -152,3 +153,4 @@
 </div>
 </body>
 </html>
+

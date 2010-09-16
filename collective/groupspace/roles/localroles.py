@@ -5,9 +5,10 @@ Local roles for PAS
 from borg.localrole.interfaces import ILocalRoleProvider
 from zope.interface import implements
 from zope.component import adapts
+from collective.groupspace.roles import ROLES_MESSAGE_FACTORY as _
 from collective.groupspace.roles.interfaces import IRolesPageRole
 from collective.groupspace.roles.config import ROLE_ASSIGNMENT_PERMISSION
-from plone.app.workflow import PloneMessageFactory as _
+from plone.app.workflow import PloneMessageFactory as _p
 from plone.indexer.decorator import indexer
 from collective.groupspace.roles.interfaces import ILocalGroupSpacePASRoles
 
@@ -47,14 +48,14 @@ class GroupEditorRole(object):
     """Editor role for groupspaces"""
     implements(IRolesPageRole)
     
-    title = _(u"title_can_edit", default=u"Can edit")
+    title = _p(u"title_can_edit", default=u"Can edit")
     required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 class GroupContributorRole(object):
     """Contributor role for groupspaces"""
     implements(IRolesPageRole)
     
-    title = _(u"title_can_add", default=u"Can add")
+    title = _p(u"title_can_add", default=u"Can add")
     required_permission = ROLE_ASSIGNMENT_PERMISSION
     
 
@@ -62,7 +63,7 @@ class GroupReaderRole(object):
     """Reader role for groupspaces"""
     implements(IRolesPageRole)
     
-    title = _(u"title_can_view", default=u"Can view")
+    title = _p(u"title_can_view", default=u"Can view")
     required_permission = ROLE_ASSIGNMENT_PERMISSION
 
 class LocalRoles(object):
@@ -129,7 +130,7 @@ def setPolicyDefaultLocalRoles(obj, event):
         obj.manage_delLocalRoles(userids=remove)
 
     for principal in add:
-        # Enforce just the default local roles
+        # Enforce the local roles
         obj.manage_setLocalRoles(principal, list(default_roles))
 
     if remove or add:
