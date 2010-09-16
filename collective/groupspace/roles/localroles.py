@@ -131,7 +131,10 @@ def setPolicyDefaultLocalRoles(obj, event):
 
     for principal in add:
         # Enforce the local roles
-        obj.manage_setLocalRoles(principal, list(default_roles))
+        user_roles_assocation = event.new_user_roles.get(principal)
+        group_roles_association = event.new_group_roles.get(principal)
+
+        obj.manage_setLocalRoles(principal, user_roles_assocation or group_roles_association or list(default_roles))
 
     if remove or add:
         # Now that the local roles have changed, it is necessary to reindex
