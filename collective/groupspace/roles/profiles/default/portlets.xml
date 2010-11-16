@@ -19,12 +19,12 @@
         <for interface="plone.app.portlets.interfaces.IDashboard" />
     </portlet>
 
-    <assignment
+    <!--assignment
         manager="plone.rightcolumn"
         category="context"
         key="/"
         type="collective.groupspace.roles.portlets.MyGroupsPortlet"
         name="mygroupspaces"
-    />
+    /-->
 
 </portlets>
