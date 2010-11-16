@@ -38,12 +38,13 @@ class LocalGroupSpacePASRolesChangeEvent(ObjectEvent):
     zope.interface.implements(ILocalGroupSpacePASRolesChangeEvent)
 
     def __init__(self, object, old_user_roles, new_user_roles, old_group_roles, 
-                 new_group_roles):
+                 new_group_roles, request=None):
         ObjectEvent.__init__(self, object)
         self.old_user_roles = old_user_roles
         self.new_user_roles = new_user_roles
         self.old_group_roles = old_group_roles
         self.new_group_roles = new_group_roles
+        self.request = request
         
 class RolesView(SharingView):
     """
@@ -223,7 +224,8 @@ class RolesView(SharingView):
                                                        old_user_roles, 
                                                        new_user_roles, 
                                                        old_group_roles, 
-                                                       new_group_roles)
+                                                       new_group_roles,
+                                                       self.request)
             notify(event)
         
         # Just reindex allowedLocalUsersAndGroups
