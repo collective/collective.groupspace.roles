@@ -9,7 +9,7 @@ from setuptools import setup
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.0.2'
+version = '1.0.3'
 
 long_description = (
     read('README.txt')
@@ -24,7 +24,7 @@ setup(name='collective.groupspace.roles',
     description="Plone collective.groupspace view for assigning roles to participants",
     long_description=long_description,
     classifiers=[
-      "Development Status :: 4 - Beta",
+      "Development Status :: 5 - Production/Stable",
       "Environment :: Web Environment",
       "Framework :: Plone",
       "Framework :: Zope2",
@@ -40,7 +40,7 @@ setup(name='collective.groupspace.roles',
     keywords='groupspace, roles, pas, borg.localrole, grufspaces',
     author='Maik Roeder',
     author_email='roeder@berg.net',
-    url='https://svn.plone.org/svn/collective/collective.groupspace.roles',
+    url='http://plone.org/products/collective.groupspace.roles',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['collective', 'collective.groupspace'],
