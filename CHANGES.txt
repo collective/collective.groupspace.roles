@@ -1,8 +1,23 @@
-Next release
-============
+1.0.3 (2010-07-02)
+==================
 
-Internal
+Features
 --------
+
+- spanish translation (enriquepablo)
+
+- Added FR translations. (jstegle)
+
+Bug Fixes
+---------
+
+- ignore `.egg-info` to not make `mr.developer` think of dirty packages too much (witsch)
+
+- make sure the event has the request (enriquepablo)
+
+- portlet assignment fails if ponesite is not at / (enriquepablo)
+
+- Changed groupspace_roles.pt for Plone 4.0 Compatibility (member was undefined) (jstegle)
 
 1.0.2 (2010-01-10)
 ==================
