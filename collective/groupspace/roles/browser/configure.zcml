@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:browser="http://namespaces.zope.org/browser">
 
     <browser:page
@@ -9,6 +10,8 @@
         permission="zope2.View"
         />
         
+    <configure zcml:condition="installed kss.core">
+
     <browser:page
         for="*"
         class=".kss_roles.KSSRolesView"
@@ -16,5 +19,7 @@
         attribute="updateRolesInfo"
         permission="zope2.View"
       />
+
+    </configure>
       
 </configure>
